@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -12,8 +13,13 @@ import java.util.stream.Stream;
  */
 public class Util {
 
-    public static Stream<String> readAllLines(String filepath) throws IOException {
+    public static Stream<String> linesToStringStream(String filepath) throws IOException {
         return Files.lines(Paths.get(filepath));
+    }
+
+    public static IntStream linesToIntStream(String filepath) throws IOException {
+        return linesToStringStream(filepath)
+                .mapToInt(Integer::valueOf);
     }
 
     public static Integer[] readAllLinesArray(String filepath) throws IOException {

@@ -1,10 +1,12 @@
 package util;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -15,6 +17,18 @@ public class Util {
 
     public static Stream<String> linesToStringStream(String filepath) throws IOException {
         return Files.lines(Paths.get(filepath));
+    }
+
+    public static List<String> readAllLinesStringList(String filepath) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(new File(filepath)));
+        String line;
+        var list = new ArrayList<String>();
+
+        while((line = reader.readLine()) != null) {
+            list.add(line);
+        }
+
+        return list;
     }
 
     public static IntStream linesToIntStream(String filepath) throws IOException {
@@ -37,5 +51,7 @@ public class Util {
                 .mapToInt(Integer::parseInt)
                 .toArray();
     }
+
+    //public static Supplier<T extends Object> getNewSupplier(T type)
 
 }

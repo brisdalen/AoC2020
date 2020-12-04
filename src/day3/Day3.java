@@ -31,7 +31,7 @@ public class Day3 {
         int position = right;
         int treesHit = 0;
         for(int i = down; i < Day3.input2.size(); i += down) {
-            var line = input2.get(i);
+            String line = input2.get(i);
             if(line.charAt(position) == '#') {
                 treesHit++;
             }

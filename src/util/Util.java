@@ -31,6 +31,21 @@ public class Util {
         return list;
     }
 
+    public static String[] readFileAndSplit(String filepath, String splitBy) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(new File(filepath)));
+        String line;
+        var builder = new StringBuilder();
+
+        while((line = reader.readLine()) != null) {
+            if(line.isBlank()) {
+                builder.append("\n");
+            }
+            builder.append(line + "\n");
+        }
+
+        return builder.toString().split(splitBy);
+    }
+
     public static IntStream linesToIntStream(String filepath) throws IOException {
         return linesToStringStream(filepath)
                 .mapToInt(Integer::valueOf);

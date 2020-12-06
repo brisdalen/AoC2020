@@ -5,6 +5,8 @@ import util.Util;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Day6 {
 
@@ -18,15 +20,14 @@ public class Day6 {
 	public static void a(String[] input) {
 		final int[] count = {0};
 
-		Arrays.asList(input).forEach(s -> {
-			HashSet<Character> yesAnswers = new HashSet<>();
-			s = s.replace("\n", "");
-			var chars = s.toCharArray();
-			for(char c : chars) {
-				yesAnswers.add(c);
-			}
-			count[0] += yesAnswers.size();
-		});
+		HashSet<Character> yesAnswers = new HashSet<>();
+		Stream.of(input)
+				.map(s -> s.replace("\n", ""))
+				.peek(hs -> yesAnswers.clear())
+				.forEach(s -> {
+					s.chars().forEach(i -> yesAnswers.add((char) i));
+					count[0] += yesAnswers.size();
+				});
 
 		System.out.println(count[0]);
 	}
@@ -39,9 +40,9 @@ public class Day6 {
 			// Remove excess new-lines
 			s = s.trim();
 			var lines = s.split("\n");
-			int groupSize = lines.length;
 			// List of the group's sets
 			ArrayList<HashSet<Character>> yesAnswersList = new ArrayList<>();
+
 			// Check every passenger's answer
 			for(String line : lines) {
 				HashSet<Character> yesAnswersSinglePassanger = new HashSet<>();

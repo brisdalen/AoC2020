@@ -3,6 +3,7 @@ package day6;
 import util.Util;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Day6 {
@@ -39,26 +40,23 @@ public class Day6 {
 			s = s.trim();
 			var lines = s.split("\n");
 			int groupSize = lines.length;
-			System.out.println("Group size: " + groupSize);
-			// Map of the group's character frequency
-			HashMap<Character, Integer> yesAnswers = new HashMap<>();
+			// List of the group's sets
+			ArrayList<HashSet<Character>> yesAnswersList = new ArrayList<>();
 			// Check every passenger's answer
 			for(String line : lines) {
+				HashSet<Character> yesAnswersSinglePassanger = new HashSet<>();
 				var chars = line.toCharArray();
 				for(char c : chars) {
-					int newVal = yesAnswers.getOrDefault(c, 0) + 1;
-					yesAnswers.put(c, newVal);
+					yesAnswersSinglePassanger.add(c);
 				}
+				yesAnswersList.add(yesAnswersSinglePassanger);
 			}
 
-			int groupCharCount = 0;
-			for(var key : yesAnswers.keySet()) {
-				int charCount = yesAnswers.get(key);
-				if(charCount == groupSize) {
-					groupCharCount++;
-				}
+			for(int i = 0; i < yesAnswersList.size()-1; i++) {
+				var next = yesAnswersList.get(i+1);
+				yesAnswersList.get(0).retainAll(next);
 			}
-			count[0] += groupCharCount;
+			count[0] += yesAnswersList.get(0).size();
 		});
 
 		System.out.println(count[0]);

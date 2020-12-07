@@ -22,8 +22,8 @@ public class Day6 {
 
 		HashSet<Character> yesAnswers = new HashSet<>();
 		Stream.of(input)
-				.map(s -> s.replace("\n", ""))
 				.peek(hs -> yesAnswers.clear())
+				.map(s -> s.replace("\n", ""))
 				.forEach(s -> {
 					s.chars().forEach(i -> yesAnswers.add((char) i));
 					count[0] += yesAnswers.size();
@@ -33,7 +33,24 @@ public class Day6 {
 	}
 
 	public static void b(String[] input) {
-		final int[] count = {0};
+		final int[] count = {0, 0};
+
+		HashSet<Character> yesAnswers = new HashSet<>();
+		HashSet<Character> yesAnswersPrevious = new HashSet<>();
+		Stream.of(input)
+				.peek(hs -> yesAnswers.clear())
+				.map(s -> s.trim().replace("\n", ""))
+				.forEach(s -> {
+					s.chars().forEach(i -> yesAnswers.add((char) i));
+					if(yesAnswersPrevious.size() > 0) {
+						yesAnswers.retainAll(yesAnswersPrevious);
+						yesAnswersPrevious.clear();
+					}
+					yesAnswersPrevious.addAll(yesAnswers);
+				});
+		count[1] += yesAnswersPrevious.size();
+		System.out.println("stream attempt: " + count[1]);
+
 
 		// For each group of passengers
 		Arrays.asList(input).forEach(s -> {

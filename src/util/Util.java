@@ -60,6 +60,15 @@ public class Util {
         return numbers.toArray(new Integer[lines.size()]);
     }
 
+    public static Long[] readAllLinesArrayLong(String filepath) throws IOException {
+        var lines = Files.readAllLines(Paths.get(filepath));
+        var numbers = new ArrayList<Long>();
+        for(String s : lines) {
+            numbers.add(Long.parseLong(s));
+        }
+        return numbers.toArray(new Long[lines.size()]);
+    }
+
     public static int[] csvIntsToIntArray(String filepath) throws IOException {
         String input = Files.readString(Paths.get(filepath));
         return Arrays.stream(input.trim().split(","))

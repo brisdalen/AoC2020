@@ -3,7 +3,9 @@ package day10;
 import util.Util;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Day10 {
 
@@ -75,6 +77,30 @@ public class Day10 {
     }
 
     public void b() {
+        int amountValid = 0;
         System.out.println(input.length);
+        // Try every variation of every adapter sequence
+        for(int i = 0; i < input.length; i++) {
+            // Remove the first, check if its valid, and move on
+            for(int j = 0; j < input.length; j++) {
+                ArrayList<Integer> inputList = new ArrayList<>();
+                inputList.add(0);
+                inputList.addAll(Arrays.asList(input));
+                inputList.add(inputList.get(list.size()-1) + 3);
+                System.out.println(list.size());
+                boolean success = true;
+                // if this is successful, it is still valid
+                for(int k = 1; k < list.size(); k++) {
+                    if(list.get(k) - list.get(k-1) > 3) {
+                        success = false;
+                        break;
+                    }
+                }
+                if(success) {
+                    amountValid++;
+                }
+            }
+        }
+        System.out.println(amountValid);
     }
 }

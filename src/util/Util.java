@@ -60,6 +60,15 @@ public class Util {
         return numbers.toArray(new Integer[lines.size()]);
     }
 
+    public static Integer[] readStringToArray(String inputString) throws IOException {
+        var split = inputString.split("\n");
+        var numbers = new ArrayList<Integer>();
+        for(String s : split) {
+            numbers.add(Integer.parseInt(s));
+        }
+        return numbers.toArray(new Integer[split.length]);
+    }
+
     public static Long[] readAllLinesArrayLong(String filepath) throws IOException {
         var lines = Files.readAllLines(Paths.get(filepath));
         var numbers = new ArrayList<Long>();

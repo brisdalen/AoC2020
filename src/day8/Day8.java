@@ -3,6 +3,7 @@ package day8;
 import util.Util;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,14 +11,31 @@ public class Day8 {
 
     public static void main(String[] args) throws IOException {
         var input = Util.readAllLinesStringList("src/day8/input.txt");
+        var testinput = new ArrayList<String>();
+        testinput.add("nop +0");
+        testinput.add("acc +1");
+        testinput.add("jmp +4");
+        testinput.add("acc +3");
+        testinput.add("jmp -3");
+        testinput.add("acc -99");
+        testinput.add("acc +1");
+        testinput.add("jmp -4");
+        testinput.add("acc +6");
+
         Instruction[] instructions = new Instruction[input.size()];
         for (int i = 0; i < instructions.length; i++) {
             var split = input.get(i).trim().split("\\s");
             instructions[i] = new Instruction(split);
         }
 
+        Instruction[] testInstructions = new Instruction[testinput.size()];
+        for (int i = 0; i < testInstructions.length; i++) {
+            var split = testinput.get(i).trim().split("\\s");
+            testInstructions[i] = new Instruction(split);
+        }
+
 //        a(instructions);
-        b(input);
+        b(testInstructions);
     }
 
     private static void a(Instruction[] instructions) {
@@ -43,53 +61,56 @@ public class Day8 {
         }
     }
 
-    private static void b(List<String> input) {
+    private static void b(Instruction[] instructions) {
         int accVal = 0;
-        boolean finished = true;
+        boolean foundSequence = true;
+        boolean done = false;
         int iterations = 0;
-
-        Instruction[] instructions = new Instruction[input.size()];
-        // Fill the array
-        for(int i = 0; i < input.size(); i++) {
-            var split = input.get(i).trim().split("\\s");
-            instructions[i] = new Instruction(split);
-        }
-
+        System.out.println(instructions.length);
+        // Iterate through all input, switch the nop and jmp operation when encountered
         for(int i = 0; i < instructions.length; i++) {
-            System.out.println("i iteration: " + ++iterations);
+            if (done) {
+                break;
+            } else {
+                System.out.println("i iteration: " + ++iterations);
 
-            if (instructions[i].operation.equals("nop")) {
-                instructions[i].operation = "jmp";
-            } else if (instructions[i].operation.equals("jmp")) {
-                instructions[i].operation = "nop";
-            }
-
-            for(int j = 0; j < instructions.length; j++) {
+                if (instructions[i].operation.equals("nop")) {
+                    instructions[i].operation = "jmp";
+//                System.out.println(instructions[i]);
+                } else if (instructions[i].operation.equals("jmp")) {
+                    instructions[i].operation = "nop";
+//                System.out.println(instructions[i]);
+                }
+                // Iterate through all the input, now with the switch nop or jmp operation
+                for (int j = 0; j < instructions.length; j++) {
+                    System.out.println(j + ":" + instructions[j] + " - " + accVal);
 //                    System.out.println("Iteration: " + ++iterations + " @ " + j);
-                if (!instructions[j].executed) {
+                    if (!instructions[j].executed) {
 //                        System.out.println(instructions[j].toString());
-                    instructions[j].setExecuted(true);
-                    if (instructions[j].isJump()) {
-                        j += instructions[j].argument - 1;
-                    } else if (instructions[j].isAcc()) {
-                        accVal += instructions[j].argument;
+                        instructions[j].setExecuted(true);
+                        if (instructions[j].isJump()) {
+                            j += instructions[j].argument - 1;
+                        } else if (instructions[j].isAcc()) {
+                            accVal += instructions[j].argument;
+                        }
+                    } else {
+                        System.out.println("else");
+                        accVal = 0;
+                        foundSequence = false;
+                        if (instructions[i].operation.equals("nop")) {
+                            instructions[i].operation = "jmp";
+                        } else if (instructions[i].operation.equals("jmp")) {
+                            instructions[i].operation = "nop";
+                        }
+                        reset(instructions);
+                        j = instructions.length + 1;
                     }
-                } else {
-                    System.out.println("else");
-                    accVal = 0;
-                    finished = false;
-                    if (instructions[j].operation.equals("nop")) {
-                        instructions[i].operation = "jmp";
-                    } else if (instructions[j].operation.equals("jmp")) {
-                        instructions[i].operation = "nop";
-                    }
-                    reset(instructions);
-                    j = instructions.length;
+                }
+                if (foundSequence) {
+                    System.out.println(accVal);
+                    done = true;
                 }
             }
-        }
-        if (finished) {
-            System.out.println(accVal);
         }
     }
 

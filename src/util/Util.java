@@ -2,6 +2,7 @@ package util;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +30,15 @@ public class Util {
         }
 
         return list;
+    }
+
+    public static String allLinesToString(String filepath) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        Files.lines(Path.of(filepath)).forEach(s -> {
+            s = s.trim();
+            stringBuilder.append(s);
+        });
+        return stringBuilder.toString();
     }
 
     public static String[] readFileAndSplit(String filepath, String splitBy) throws IOException {

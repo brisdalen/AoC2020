@@ -86,12 +86,12 @@ public class Day10 {
                 ArrayList<Integer> inputList = new ArrayList<>();
                 inputList.add(0);
                 inputList.addAll(Arrays.asList(input));
-                inputList.add(inputList.get(list.size()-1) + 3);
-                System.out.println(list.size());
+                inputList.add(inputList.get(inputList.size()-1) + 3);
+                System.out.println(inputList.size());
                 boolean success = true;
                 // if this is successful, it is still valid
-                for(int k = 1; k < list.size(); k++) {
-                    if(list.get(k) - list.get(k-1) > 3) {
+                for(int k = 1; k < inputList.size(); k++) {
+                    if(inputList.get(k) - inputList.get(k-1) > 3) {
                         success = false;
                         break;
                     }

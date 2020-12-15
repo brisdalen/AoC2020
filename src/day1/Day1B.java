@@ -7,8 +7,8 @@ import java.io.IOException;
 public class Day1B {
 
     public static void main(String[] args) throws IOException {
-        var input = Util.linesToStringStream("src/day1/input.txt");
-        var input3 = Util.readAllLinesArray("src/day1/input.txt");
+        var input = Util.linesToStringStream(Util.getDayFilePath(1));
+        var input3 = Util.readAllLinesArray(Util.getDayFilePath(1));
 
 
         for (int i : input3) {

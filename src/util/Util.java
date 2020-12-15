@@ -16,6 +16,10 @@ import java.util.stream.Stream;
  */
 public class Util {
 
+    public static String getDayFilePath(int day) {
+        return String.format("src/day%d/input.txt", day);
+    }
+
     public static Stream<String> linesToStringStream(String filepath) throws IOException {
         return Files.lines(Paths.get(filepath));
     }
